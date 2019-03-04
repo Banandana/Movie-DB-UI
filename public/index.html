@@ -1,0 +1,73 @@
+<html>
+    <head>
+    </head>
+    <body>
+           
+        <script type="text/x-template" id="film-view-html">
+            <div class="card card-margin">
+                <div class="card-body">
+                        <img class="poster-image" v-bind:src="'https://image.tmdb.org/t/p/w500' + value.poster_path" />
+                    <ul class="list-group">
+                        <li class="list-group-item"><b>Title:</b> <a href="#" @click="clickFilm()">{{value.title}}</a></li>
+                        <li class="list-group-item"><b>Rating:</b> {{value.vote_average}}</li>
+                        <li class="list-group-item"><b>Summary:</b> {{value.overview}}</li>
+                    </ul>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/x-template" id="detailed-film-view-html">
+            <div class="top-margin">
+                <button class="btn btn-primary" v-on:click="onClickGoBack()">Go Back</button>
+                <div class="card card-margin">
+                    <div class="card-body">
+                        <img class="poster-image" v-bind:src="'https://image.tmdb.org/t/p/w500' + value.poster_path" />
+                        <img class="large-poster-image" v-bind:src="'https://image.tmdb.org/t/p/w500' + value.backdrop_path" />
+                        <ul class="list-group">
+                            <li class="list-group-item"><b>Title:</b> {{value.title}}</li>
+                            <li class="list-group-item"><b>Original Title:</b> {{value.original_title}}</li>
+                            <li class="list-group-item"><b>Rating:</b> {{value.vote_average}}</li>
+                            <li class="list-group-item"><b>Status:</b> {{value.status}}</li>
+                            <li class="list-group-item"><b>Release Date:</b> {{value.release_date}}</li>
+                            <li class="list-group-item"><b>Tagline:</b> {{value.tagline}}</li>
+                            <li class="list-group-item">
+                                <b>Genres:</b>
+                                <a v-for="genre in value.genres"
+                                    v-bind:value="genre">{{genre.name}}, </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Cast:</b><br>
+                                <a v-for="cast in value.credits.cast"
+                                    v-bind:value="cast">{{cast.name}} as {{cast.character}},<br> </a>
+                            </li>
+                            <li class="list-group-item"><b>Summary:</b> {{value.overview}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <div id="app">
+            <div class="search-bar active-pink active-pink-2 form-inline">
+                <input v-model="searchName" class="form-control" type="text" placeholder="Search">
+                <button class="btn btn-primary left-margin" v-on:click="searchFilms()">Search</button>
+            </div>
+            <film-view v-if="showGridView"
+                    v-for="film in filmArray"
+                    v-bind:value="film"
+                    @clickedfilm="clickedFilm"></film-view>
+            
+            <detailed-film-view
+                    v-if="!showGridView"
+                    v-bind:value="detailedFilm"
+                    @gotogridview="gotoGridView()"></detailed-film-view>
+        </div>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.js"></script>
+        <link rel="stylesheet" type="text/css" href="/style.css">
+        <script src="/index.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
